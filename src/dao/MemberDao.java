@@ -28,33 +28,38 @@ public class MemberDao {
 		fp.createFile();
 		
 		this.loadData();
-
-		int arr[] = new int[baseMap.size()]; 
-			
-		int w = 0;
-		Iterator<Integer> it = baseMap.keySet().iterator();
-		//데이터가 저장된 map의 크기만큼 배열 생성.
-		while(it.hasNext()) {
-			Human h = baseMap.get(it.next());
-			arr[w] = h.getNumber();
-			w++;
-		}
-		//하나의 map의 데이터가를 max로 저장, 만약에 타자의 등록번호면 1000을 감소시킨다.
-		int max = arr[0];
-		if(max>=2000) max = max - 1000;
 		
-		//가장 큰 등록번호를 가진 선수의 번호를 memberNumber에 저장.
-		for (int i = 0; i < arr.length; i++) {
-			//타자면 1000을 감소
-			if(arr[i]>=2000) {
-				arr[i] = arr[i] - 1000;
-			}
-			if(max<arr[i]) {
-				max=arr[i];
-			}
+		if(baseMap.size() == 0) {
+			memberNumber = 1001;
 		}
-		//선수를 추가할 때 다음 번호를 주워야 하기 때문에 1을 증가.
-		memberNumber = max + 1;
+		else {
+			int arr[] = new int[baseMap.size()]; 
+				
+			int w = 0;
+			Iterator<Integer> it = baseMap.keySet().iterator();
+			//데이터가 저장된 map의 크기만큼 배열 생성.
+			while(it.hasNext()) {
+				Human h = baseMap.get(it.next());
+				arr[w] = h.getNumber();
+				w++;
+			}
+			//하나의 map의 데이터를 max로 저장, 만약에 타자의 등록번호면 1000을 감소시킨다.
+			int max = arr[0];
+			if(max>=2000) max = max - 1000;
+			
+			//가장 큰 등록번호를 가진 선수의 번호를 memberNumber에 저장.
+			for (int i = 0; i < arr.length; i++) {
+				//타자면 1000을 감소
+				if(arr[i]>=2000) {
+					arr[i] = arr[i] - 1000;
+				}
+				if(max<arr[i]) {
+					max=arr[i];
+				}
+			}
+			//선수를 추가할 때 다음 번호를 주워야 하기 때문에 1을 증가.
+			memberNumber = max + 1;
+		}
 	}
 	
 	public void insert() {	
